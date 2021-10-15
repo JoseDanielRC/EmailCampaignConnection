@@ -147,7 +147,8 @@ public class Main extends javax.swing.JFrame {
 
     private void jbt_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_actualizarActionPerformed
         try {
-            String name = "C:/Users/EliasGZ/Documents/Software_HumuyaInn/EmailCampaignConnection/ConnectionApp/src/FormatoSalidaLista.xlsx";
+            String name = new File("").getAbsolutePath();
+            name = name.concat("/src/FormatoSalidaLista.xlsx");
             FileInputStream file = new FileInputStream(new File(name));
             Workbook workbook = new XSSFWorkbook(file);
             DataFormatter dataFormatter = new DataFormatter();
@@ -178,7 +179,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_actualizarActionPerformed
 
     private void jbt_verReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_verReportesActionPerformed
-
+       
     }//GEN-LAST:event_jbt_verReportesActionPerformed
 
     private void jbt_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salirActionPerformed
