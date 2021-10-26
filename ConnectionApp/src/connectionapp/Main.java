@@ -8,6 +8,7 @@ package connectionapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -160,17 +161,75 @@ public class Main extends javax.swing.JFrame {
                 Iterator<Row> iterator = sh.iterator();
                 while (iterator.hasNext()) {
                     Row row = iterator.next();
-                    Iterator<Cell> cellIterator = row.iterator();
-                    while (cellIterator.hasNext()) {
-                        Cell cell = cellIterator.next();
-                        String cellValue = dataFormatter.formatCellValue(cell);
-                        //if(cell.getCellType() == CellType.STRING) {
-                        //	
-                        //}
-                        System.out.print(cellValue + "\t");
+                    if (row.getRowNum() != 0) {
+                        Iterator<Cell> cellIterator = row.iterator();
+                        nombre = row.getCell(0).toString();
+                        if (row.getCell(5) == null) {
+                            agencia = "";
+                        } else {
+                            agencia = row.getCell(5).toString();
+                        }
+                        if (row.getCell(6) == null) {
+                            empresa = "";
+                        } else {
+                            empresa = row.getCell(6).toString();
+                        }
+                        if (row.getCell(13) == null) {
+                            correo = "";
+                        } else {
+                            correo = row.getCell(13).toString();
+                        }
+                        if (row.getCell(14) == null) {
+                            vip = "";
+                        } else {
+                            vip = row.getCell(14).toString();
+                        }
+                        if (row.getCell(15) == null) {
+                            estado = "";
+                        } else {
+                            estado = row.getCell(15).toString();
+                        }
+
+//                    while (cellIterator.hasNext()) {
+//                        delimiter++;
+//                        Cell cell = cellIterator.next();
+//                        String cellValue = dataFormatter.formatCellValue(cell);
+//                        //if(cell.getCellType() == CellType.STRING) {
+//                        //	
+//                        //}
+//                        switch (delimiter) {
+//                            case 1:
+//                                nombre = cellValue;
+//                                break;
+//                            case 6:
+//                                if(cellValue.trim().isEmpty()){
+//                                    agencia="holis";
+//                                }else{
+//                                 agencia = cellValue;   
+//                                }
+//                                break;
+//                            case 7:
+//                                empresa = cellValue;
+//                                break;
+//                            case 14:
+//                                correo = cellValue;
+//                                break;
+//                            case 15:
+//                                vip = cellValue;
+//                                break;
+//                            case 16:
+//                                estado = cellValue;
+//                                bandera=false;
+//                                break;
+//                        }
+//                    }
+//                    delimiter = 0;
+                        cliente = new Cliente(nombre, agencia, empresa, correo, estado, vip);
+                        clientes.add(cliente);
+                        System.out.print(cliente.toString());
                     }
-                    System.out.println();
                 }
+
             }
             workbook.close();
         } catch (Exception e) {
@@ -179,7 +238,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_actualizarActionPerformed
 
     private void jbt_verReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_verReportesActionPerformed
-       
+
     }//GEN-LAST:event_jbt_verReportesActionPerformed
 
     private void jbt_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salirActionPerformed
@@ -238,4 +297,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jbt_salir;
     private javax.swing.JButton jbt_verReportes;
     // End of variables declaration//GEN-END:variables
+int delimiter = 0;
+    ArrayList<Cliente> clientes = new ArrayList();
+    Cliente cliente = new Cliente();
+    String nombre;
+    String agencia;
+    String empresa;
+    String correo;
+    String estado;
+    String vip;
+    boolean bandera;
 }
