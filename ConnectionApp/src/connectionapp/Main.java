@@ -8,8 +8,12 @@ package connectionapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import javax.swing.JFileChooser;
 
 import org.apache.poi.ss.usermodel.Cell;
 //import org.apache.poi.ss.usermodel.CellType;
@@ -42,14 +46,31 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jDialog1 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jbt_actualizar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jbt_verReportes = new javax.swing.JButton();
         jbt_salir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jtxt_nombreArchivo = new javax.swing.JTextField();
+        jbt_abrirFileChooser = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(300, 100));
@@ -87,56 +108,105 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Agencia", "Empresa", "Correo", "Estado", "VIP"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jtxt_nombreArchivo.setEnabled(false);
+
+        jbt_abrirFileChooser.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jbt_abrirFileChooser.setText("....");
+        jbt_abrirFileChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbt_abrirFileChooserActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel4.setText("Seleccionar Archivo: ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jbt_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(184, 184, 184)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(jLabel3))))
+                                .addGap(45, 45, 45)
+                                .addComponent(jLabel3)))
+                        .addGap(418, 418, 418))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jbt_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(238, 238, 238)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbt_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jbt_verReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(201, Short.MAX_VALUE))
+                                .addGap(51, 51, 51)
+                                .addComponent(jbt_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(jbt_verReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(107, 107, 107))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jtxt_nombreArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbt_abrirFileChooser))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                .addComponent(jbt_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73)
-                .addComponent(jbt_verReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(148, 148, 148)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxt_nombreArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jbt_abrirFileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jbt_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jbt_verReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(258, 258, 258)
                 .addComponent(jbt_salir)
-                .addGap(32, 32, 32))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,94 +217,15 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbt_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_actualizarActionPerformed
-        try {
-            String name = new File("").getAbsolutePath();
-            name = name.concat("/src/FormatoSalidaLista.xlsx");
-            FileInputStream file = new FileInputStream(new File(name));
-            Workbook workbook = new XSSFWorkbook(file);
-            DataFormatter dataFormatter = new DataFormatter();
-            Iterator<Sheet> sheets = workbook.sheetIterator();
-            while (sheets.hasNext()) {
-                Sheet sh = sheets.next();
-                System.out.println("Sheet name is " + sh.getSheetName());
-                System.out.println("---------");
-                Iterator<Row> iterator = sh.iterator();
-                while (iterator.hasNext()) {
-                    Row row = iterator.next();
-                    if (row.getRowNum() != 0) {
-                        Iterator<Cell> cellIterator = row.iterator();
-                        nombre = row.getCell(0).toString();
-                        if (row.getCell(5) == null) {
-                            agencia = "";
-                        } else {
-                            agencia = row.getCell(5).toString();
-                        }
-                        if (row.getCell(6) == null) {
-                            empresa = "";
-                        } else {
-                            empresa = row.getCell(6).toString();
-                        }
-                        if (row.getCell(13) == null) {
-                            correo = "";
-                        } else {
-                            correo = row.getCell(13).toString();
-                        }
-                        if (row.getCell(14) == null) {
-                            vip = "";
-                        } else {
-                            vip = row.getCell(14).toString();
-                        }
-                        if (row.getCell(15) == null) {
-                            estado = "";
-                        } else {
-                            estado = row.getCell(15).toString();
-                        }
-
-//                    while (cellIterator.hasNext()) {
-//                        delimiter++;
-//                        Cell cell = cellIterator.next();
-//                        String cellValue = dataFormatter.formatCellValue(cell);
-//                        //if(cell.getCellType() == CellType.STRING) {
-//                        //	
-//                        //}
-//                        switch (delimiter) {
-//                            case 1:
-//                                nombre = cellValue;
-//                                break;
-//                            case 6:
-//                                if(cellValue.trim().isEmpty()){
-//                                    agencia="holis";
-//                                }else{
-//                                 agencia = cellValue;   
-//                                }
-//                                break;
-//                            case 7:
-//                                empresa = cellValue;
-//                                break;
-//                            case 14:
-//                                correo = cellValue;
-//                                break;
-//                            case 15:
-//                                vip = cellValue;
-//                                break;
-//                            case 16:
-//                                estado = cellValue;
-//                                bandera=false;
-//                                break;
-//                        }
-//                    }
-//                    delimiter = 0;
-                        cliente = new Cliente(nombre, agencia, empresa, correo, estado, vip);
-                        clientes.add(cliente);
-                        System.out.print(cliente.toString());
-                    }
-                }
-
-            }
-            workbook.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String name = new File("").getAbsolutePath();
+        name = name.concat("/src/FormatoSalidaLista.xlsx");
+        clientesNuevos = LeerExcel(f.toPath().toString());
+        f = new File(name);
+        clientesActuales = LeerExcel(name);
+        System.out.println("----------------------------Clientes Actuales----------------------------");
+        System.out.println(clientesActuales.toString());
+        System.out.println("----------------------------Clientes Nuevos----------------------------");
+        System.out.println(clientesNuevos.toString());
     }//GEN-LAST:event_jbt_actualizarActionPerformed
 
     private void jbt_verReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_verReportesActionPerformed
@@ -244,6 +235,18 @@ public class Main extends javax.swing.JFrame {
     private void jbt_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salirActionPerformed
 
     }//GEN-LAST:event_jbt_salirActionPerformed
+
+    private void jbt_abrirFileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_abrirFileChooserActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.showDialog(null, "Accept");
+        f = chooser.getSelectedFile();
+        try {
+            jtxt_nombreArchivo.setText(f.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jbt_abrirFileChooserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,22 +292,79 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbt_abrirFileChooser;
     private javax.swing.JButton jbt_actualizar;
     private javax.swing.JButton jbt_salir;
     private javax.swing.JButton jbt_verReportes;
+    private javax.swing.JTextField jtxt_nombreArchivo;
     // End of variables declaration//GEN-END:variables
-int delimiter = 0;
-    ArrayList<Cliente> clientes = new ArrayList();
-    Cliente cliente = new Cliente();
-    String nombre;
-    String agencia;
-    String empresa;
-    String correo;
-    String estado;
-    String vip;
+    int delimiter = 0;
+    ArrayList<Cliente> clientesActuales = new ArrayList();
+    ArrayList<Cliente> clientesNuevos = new ArrayList();
+    static Cliente cliente = new Cliente();
+    static String nombre;
+    static String agencia;
+    static String empresa;
+    static String correo;
+    static String estado;
+    static String vip;
     boolean bandera;
+    static File f;
+
+    public static ArrayList<Cliente> LeerExcel(String path) {
+        ArrayList<Cliente> clientes = new ArrayList();
+        try {
+            Workbook workbook = new XSSFWorkbook(f);
+            Iterator<Sheet> sheets = workbook.sheetIterator();
+            while (sheets.hasNext()) {
+                Sheet sh = sheets.next();
+                Iterator<Row> iterator = sh.iterator();
+                while (iterator.hasNext()) {
+                    Row row = iterator.next();
+                    if (row.getRowNum() != 0) {
+                        nombre = row.getCell(0).toString();
+                        if (row.getCell(5) == null) {
+                            agencia = "";
+                        } else {
+                            agencia = row.getCell(5).toString();
+                        }
+                        if (row.getCell(6) == null) {
+                            empresa = "";
+                        } else {
+                            empresa = row.getCell(6).toString();
+                        }
+                        if (row.getCell(13) == null) {
+                            correo = "";
+                        } else {
+                            correo = row.getCell(13).toString();
+                        }
+                        if (row.getCell(14) == null) {
+                            vip = "";
+                        } else {
+                            vip = row.getCell(14).toString();
+                        }
+                        if (row.getCell(15) == null) {
+                            estado = "";
+                        } else {
+                            estado = row.getCell(15).toString();
+                        }
+                        cliente = new Cliente(nombre, agencia, empresa, correo, estado, vip);
+                        clientes.add(cliente);
+                    }
+                }
+            }
+            workbook.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clientes;
+    }
 }
